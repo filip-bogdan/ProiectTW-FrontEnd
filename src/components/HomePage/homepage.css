@@ -1,0 +1,33 @@
+body {
+  background: url("../../icons/green-bg.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.nav-area {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.main-container {
+  position: absolute;
+  left: 0;
+  top: 100px;
+  width: 100vw;
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 840px){
+  .main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

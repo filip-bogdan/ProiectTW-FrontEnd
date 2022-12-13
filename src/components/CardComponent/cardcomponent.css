@@ -1,0 +1,27 @@
+/*card*/
+.css-a77idv-MuiPaper-root-MuiCard-root {
+    margin: 30px;
+}
+
+/*text body*/
+.css-e784if-MuiTypography-root{
+    color:white
+}
+
+/*header text*/
+.css-h93ljk-MuiTypography-root{
+    color: white
+}
+/*div with text and header*/
+.css-46bh2p-MuiCardContent-root{
+    background-color: #111820;
+}
+
+/*button*/
+.css-1t6e9jv-MuiCardActions-root{
+    background-color: #216ce7;
+}
+
+.button-text{
+    color: white;
+}
