@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./signup.css";
 import greenBg from "../../icons/green-bg.png";
 import HomePage from "../HomePage/HomePage";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [success, setSuccess] = useState(false);
+  const [userType, setUserType] = React.useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch("http://localhost:5000/api/UserTypes");
+      const data = await result.json();
+
+      setData(data);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleChange = (e) => {
+    setUserType(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,13 +35,14 @@ const Signup = () => {
     const sendData = async () => {
       fetch("http://localhost:5000/api/Users", {
         method: "POST",
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         body: JSON.stringify({
           name: name,
           email: email,
           password: password,
+          userTypeId: userType,
         }),
 
         headers: {
@@ -33,7 +54,7 @@ const Signup = () => {
         .then((json) => console.log(json));
     };
     sendData();
-    //setSuccess(true);
+    setSuccess(true);
   };
 
   return (
@@ -47,7 +68,7 @@ const Signup = () => {
             <h2>Sign Up</h2>
             <h3>It's quick & simple</h3>
             <form className="form" onSubmit={handleSubmit}>
-              <div class="textbox">
+              <div className="textbox">
                 <input
                   type="text"
                   id="name"
@@ -59,7 +80,7 @@ const Signup = () => {
                 <span class="material-symbols-outlined"> account_circle </span>
               </div>
 
-              <div class="textbox">
+              <div className="textbox">
                 <input
                   type="email"
                   id="email"
@@ -71,7 +92,7 @@ const Signup = () => {
                 <span class="material-symbols-outlined"> email </span>
               </div>
 
-              <div class="textbox">
+              <div className="textbox">
                 <input
                   type="password"
                   id="password"
@@ -82,6 +103,15 @@ const Signup = () => {
                 <label>Password</label>
                 <span class="material-symbols-outlined"> key </span>
               </div>
+
+              <label className="select-label">Select account type</label>
+              <FormControl sx={{ m: 0, minWidth: 20 }}>
+                <Select value={userType} onChange={handleChange} required>
+                  {data.map((d) => (
+                    <MenuItem value={d.id}>{d.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
               <p>
                 Signed up already?

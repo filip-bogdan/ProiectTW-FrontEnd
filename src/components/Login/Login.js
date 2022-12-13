@@ -14,9 +14,7 @@ const Login = () => {
     setError("");
   }, [email, password]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     const fetchData = async () => {
       const result = await fetch("http://localhost:5000/api/Users");
       const jsonResult = await result.json();
@@ -26,7 +24,12 @@ const Login = () => {
     };
 
     fetchData();
-    user.map(user => {
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    user.map((user) => {
       if (email === user.email && password === user.password) {
         setEmail("");
         setPassword("");
@@ -34,7 +37,7 @@ const Login = () => {
       } else {
         setError("Email or password invalid!");
       }
-    })
+    });
   };
 
   return (

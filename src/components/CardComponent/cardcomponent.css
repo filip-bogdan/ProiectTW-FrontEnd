@@ -1,6 +1,26 @@
 /*card*/
 .css-a77idv-MuiPaper-root-MuiCard-root {
     margin: 30px;
+    width: 300px;
+    z-index: -1;
+}
+
+@media (max-width: 840px){
+    .css-a77idv-MuiPaper-root-MuiCard-root{
+        width: 400px;
+    }
+}
+
+@media (max-width: 412px){
+    .css-a77idv-MuiPaper-root-MuiCard-root{
+        width: 300px;
+    }
+}
+
+@media (max-width: 312px){
+    .css-a77idv-MuiPaper-root-MuiCard-root{
+        width: 200px;
+    }
 }
 
 /*text body*/
@@ -20,6 +40,7 @@
 /*button*/
 .css-1t6e9jv-MuiCardActions-root{
     background-color: #216ce7;
+    height: 50px;
 }
 
 .button-text{
