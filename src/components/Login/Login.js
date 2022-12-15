@@ -18,7 +18,7 @@ const Login = () => {
     const fetchData = async () => {
       const result = await fetch("http://localhost:5000/api/Users");
       const jsonResult = await result.json();
-      console.log(jsonResult);
+      //console.log(jsonResult);
 
       setUser(jsonResult);
     };
@@ -29,8 +29,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     user.map((user) => {
+      const descr = user.description;
+      const profilePic = user.profilePicture;
+      const userType = user.userType.name;
       if (email === user.email && password === user.password) {
+        localStorage.setItem("email", email);
+        localStorage.setItem("logged", true);
+        localStorage.setItem("description",descr);
+        localStorage.setItem("profilePic", profilePic);
+        localStorage.setItem("userType", userType);
         setEmail("");
         setPassword("");
         setSuccess(true);
@@ -56,7 +65,7 @@ const Login = () => {
             <p>{error}</p>
 
             <form className="form" onSubmit={handleSubmit}>
-              <div class="textbox">
+              <div className="textbox">
                 <input
                   type="email"
                   id="email"
@@ -65,10 +74,10 @@ const Login = () => {
                   required
                 />
                 <label>Email</label>
-                <span class="material-symbols-outlined"> email </span>
+                <span className="material-symbols-outlined"> email </span>
               </div>
 
-              <div class="textbox">
+              <div className="textbox">
                 <input
                   type="password"
                   id="password"
@@ -77,7 +86,7 @@ const Login = () => {
                   required
                 />
                 <label>Password</label>
-                <span class="material-symbols-outlined"> key </span>
+                <span className="material-symbols-outlined"> key </span>
               </div>
 
               <p>
@@ -87,7 +96,7 @@ const Login = () => {
 
               <button type="submit">
                 Login to InterJobs
-                <span class="material-symbols-outlined"> arrow_forward </span>
+                <span className="material-symbols-outlined"> arrow_forward </span>
               </button>
             </form>
           </div>

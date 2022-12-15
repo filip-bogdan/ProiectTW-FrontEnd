@@ -30,6 +30,9 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
+    const descr = data.description;
+    const profilePic = data.profilePicture;
+    const usertype = data.userType.name;
     e.preventDefault();
 
     const sendData = async () => {
@@ -54,6 +57,11 @@ const Signup = () => {
         .then((json) => console.log(json));
     };
     sendData();
+    localStorage.setItem("email", email);
+    localStorage.setItem("logged", true);
+    localStorage.setItem("description",descr);
+    localStorage.setItem("profilePic", profilePic);
+    localStorage.setItem("userType", usertype);
     setSuccess(true);
   };
 

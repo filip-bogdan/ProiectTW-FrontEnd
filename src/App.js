@@ -1,26 +1,39 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
+import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Login from "./components/Login/Login";
 import Signup from "./components/SignUp/Signup";
 import HomePage from "./components/HomePage/HomePage";
+import Profile from "./components/Profile/Profile";
 
-import './App.css';
+import "./App.css";
+
+const ProtectedRoute = ({ logged, children }) => {
+  if (logged === false) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
+const LoggedRoute = ({ logged, children }) => {
+  if (logged === true) {
+    return <Navigate to="/homepage" replace />;
+  }
+  return children;
+};
 
 function App() {
+  const saved = localStorage.getItem("logged");
+  const initialValue = JSON.parse(saved);
   return (
-      <div className="main">
-        <Router>
-          <Routes>
-            <Route path="/homepage" element={<HomePage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            {/*<Route path="/forgot-password" element={<ForgotPassword />} />*/}
-            {/*<Route path="*" element={<ErrorPage />} />*/}
-            
-          </Routes>
-        </Router>
-      </div>
+    <div className="main">
+      <Routes>
+        <Route path="/homepage" element={<ProtectedRoute logged={initialValue}><HomePage /></ProtectedRoute>} />
+        <Route path="/" element={<ProtectedRoute logged={initialValue}><HomePage /></ProtectedRoute>} />
+        <Route path="/login" element={<LoggedRoute logged={initialValue}><Login /></LoggedRoute>}  />
+        <Route path="/signup" element={<LoggedRoute logged={initialValue}><Signup /></LoggedRoute>}  />
+        <Route path="/profile" element={<ProtectedRoute logged={initialValue}><Profile /></ProtectedRoute>} />
+      </Routes>
+    </div>
   );
 }
 
