@@ -39,8 +39,8 @@ input {
   position: fixed;
   top: 30%;
   left: 0;
-  width: 200%;
-  height: 200%;
+  width: 150%;
+  height: 150%;
   translate: 0% -50%;
   animation: green-bg 15s infinite alternate linear;
 }
@@ -51,20 +51,27 @@ input {
   top: 0;
   left: 0;
   height: 100%;
-  width: 70%;
+  width: 100%;
   max-width: 460px;
-  padding: 200px 90px;
   background: #111820;
 }
 
-.login > h2 {
+.login-wrapper{
+  position: absolute;
+  width: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.login-wrapper > h2 {
   font-size: 32px;
   font-weight: 600;
   margin: 0 0 6px;
   color: rgb(255 255 255 / 96%);
 }
 
-.login > h3 {
+.login-wrapper > h3 {
   font-size: 16px;
   font-weight: 400;
   margin: 0 0 30px;

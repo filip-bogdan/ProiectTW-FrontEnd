@@ -40,8 +40,8 @@
     position: fixed;
     top: 30%;
     left: 0;
-    width: 200%;
-    height: 200%;
+    width: 150%;
+    height: 150%;
     translate: 0% -50%;
     animation: green-bg 15s infinite alternate linear;
   }
@@ -54,18 +54,26 @@
     height: 100%;
     width: 70%;
     max-width: 460px;
-    padding: 200px 90px;
+    padding: 40px 80px;
     background: #111820;
   }
   
-  .signup > h2 {
+  .signup-wrapper{
+    position: absolute;
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  .signup-wrapper > h2 {
     font-size: 32px;
     font-weight: 600;
     margin: 0 0 6px;
     color: rgb(255 255 255 / 96%);
   }
   
-  .signup > h3 {
+  .signup-wrapper > h3 {
     font-size: 16px;
     font-weight: 400;
     margin: 0 0 30px;
