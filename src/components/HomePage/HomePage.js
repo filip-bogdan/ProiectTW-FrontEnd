@@ -19,16 +19,7 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => { //for the userId
-    const fetchData = async () => {
-      const result = await fetch("http://localhost:5000/api/Users");
-      const jsonResult = await result.json();
 
-      setUser(jsonResult);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <React.Fragment>
@@ -37,7 +28,6 @@ const HomePage = () => {
         {jobs.map((jobs) => (
           <React.Fragment>
             <CardComponent
-              userid={user.id}
               id={jobs.id}
               name={jobs.name}
               type={jobs.type}

@@ -115,31 +115,12 @@ svg.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
   height: 72px;
 }
 
-:is(input:focus, input:valid) ~ label {
-  translate: -40px -40px;
-  scale: 0.875;
-}
-
-input:focus ~ label {
-  color: #216ce7;
-}
-
 input:focus {
   border-color: #216ce7;
 }
 
 :is(input:focus, input:valid) ~ span {
   color: rgb(255 255 255 / 96%);
-}
-
-.textbox label {
-  position: absolute;
-  top: 50%;
-  left: 36px;
-  translate: 0 -50%;
-  color: rgb(255 255 255 / 40%);
-  pointer-events: none;
-  transition: 0.4s;
 }
 
 .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{

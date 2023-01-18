@@ -75,7 +75,6 @@ export default function CardComponent(props) {
       </Card>
       {modalShow && (
         <JobPage
-          userid={props.userid}
           id={props.id}
           name={props.name}
           type={props.type}

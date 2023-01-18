@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBCol,
   MDBContainer,
@@ -14,69 +14,145 @@ import NavBar from "../NavBar/NavBar";
 import "./profile.css";
 
 export default function Profile() {
-  const name = localStorage.getItem("name");
-  const email = localStorage.getItem("email");
-  const type = localStorage.getItem("userType");
-  const descr = localStorage.getItem("description");
+  const userID = localStorage.getItem("userId");
+  const userTypeID = localStorage.getItem("userTypeId");
+
+  const [userTypeName, setUserTypeName] = useState("");
+
+  const [userdata, setUserData] = useState([]);
+  const [image, setImage] = useState("");
+  const [descr, setDescr] = useState("");
+  const [ph, setPh] = useState("");
+  const [pw, setPw] = useState("");
+
+  useEffect(()=>{},[])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(`http://localhost:5000/api/Users/${userID}`);
+      const jsonResult = await result.json();
+
+      setUserData(jsonResult);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(`http://localhost:5000/api/UserTypes/${userTypeID}`);
+      const jsonResult = await result.json();
+
+      setUserTypeName(jsonResult.name)
+    };
+
+    fetchData();
+  }, []);
+
+
+  const handleModification = async () => {
+    const sendData = async () => {
+      fetch(`http://localhost:5000/api/Users/${userID}`, {
+        method: "PUT",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        body: JSON.stringify({
+          id: userID,
+          name: userdata.name,
+          email: userdata.email,
+          description: descr,
+          phoneNumber: ph,
+          password: pw,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((response) => response.json())
+
+        .then((json) => console.log(json));
+    };
+    sendData();
+  };
 
   return (
     <React.Fragment>
       <NavBar />
-      <section className="vh-100" style={{ backgroundColor: "#f4f5f7" }}>
-        <MDBContainer className="py-5 h-100">
-          <MDBRow className="justify-content-center align-items-center h-100">
-            <MDBCol lg="6" className="mb-4 mb-lg-0">
-              <MDBCard className="mb-3" style={{ borderRadius: ".5rem" }}>
-                <MDBRow className="g-0">
-                  <MDBCol
-                    md="4"
-                    className="gradient-custom text-center text-white"
-                  >
-                    <MDBCardImage
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="Avatar"
-                      className="my-5"
-                      style={{ width: "80px" }}
-                      fluid
-                    />
-                    <MDBTypography tag="h5">{name}</MDBTypography>
-                    <MDBCardText>{type}</MDBCardText>
-                    <MDBIcon far icon="edit mb-5" />
-                  </MDBCol>
-                  <MDBCol md="8">
-                    <MDBCardBody className="p-4">
-                      <MDBTypography tag="h6">Information</MDBTypography>
-                      <hr className="mt-0 mb-4" />
-                      <MDBRow className="pt-1">
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6">Email</MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {email}
-                          </MDBCardText>
-                        </MDBCol>
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6">Phone</MDBTypography>
-                          <MDBCardText className="text-muted">
-                            123 456 789
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
+      <div className="profile-page">
+        <div className="profile-page-left">
+          <div className="profile-image-wrapper">
+            <div className="profile-image"></div>
+          </div>
+          <label className="pic-label">Click to change picture</label>
+          <div className="profile-data-wrapper1">
+            <div className="profile-data1">
+              <div className="profile-name">Name: {userdata.name}</div>
+              <div className="profile-email">Email: {userdata.email}</div>
+              <div className="profile-type">Type: {userTypeName}</div>
+            </div>
+          </div>
+        </div>
+        <div className="profile-page-right">
+          <div className="profile-page-right-data">
+            <div className="profile-data-wrapper">
+              <div className="profile-data-title">Description</div>
+              <div className="profile-data">
+                <input
+                  className="profile-description"
+                  type="text"
+                  id="text"
+                  placeholder={
+                    userdata.description === null
+                      ? "Write your description"
+                      : userdata.description
+                  }
+                  required
+                  onChange={(e) => setDescr(e.target.value)}
+                />
+              </div>
+            </div>
 
-                      <hr className="mt-0 mb-4" />
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Desription</MDBTypography>
-                        <MDBCardText className="text-muted">
-                          {descr}
-                        </MDBCardText>
-                      </MDBCol>
-                    </MDBCardBody>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </section>
+            <div className="profile-data-wrapper">
+              <div className="profile-data-title">Phone number</div>
+              <div className="profile-data">
+                <input
+                  type="text"
+                  id="text"
+                  placeholder={
+                    userdata.phoneNumber === null
+                      ? "Write your phone number"
+                      : userdata.phoneNumber
+                  }
+                  required
+                  onChange={(e) => setPh(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="profile-data-wrapper">
+              <div className="profile-data-title">Password</div>
+              <div className="profile-data">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Change your password"
+                  required
+                  onChange={(e) => setPw(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="profile-data-wrapper2">
+              <div className="buttons-wrapper2">
+                <button className="apply-button2" onClick={handleModification}>
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </React.Fragment>
   );
 }

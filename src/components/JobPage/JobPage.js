@@ -1,35 +1,48 @@
 import React from "react";
 import "./job-page.css";
-import Button from "@mui/joy/Button";
 import Modal from "react-bootstrap/Modal";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const JobPage = (props) => {
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
 
-  const handleApplication = () =>{
-    const jobID = props.id; 
-    const userID = props.userId;
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsFilePicked(true);
+  };
+
+  const handleApplication = async (e) => {
+    const jobID = props.id;
+    const userID = localStorage.getItem("userId");
+
+    const cv = selectedFile;
+
+    const formdata = new FormData();
+    formdata.append("cvContent", cv);
+    formdata.append("userID", userID);
+    formdata.append("jobID", jobID);
+
+    toast.success("File sent!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
 
     const apply = async () => {
-      fetch("http://localhost:5000/api/JobApplications", {
+      await fetch("http://localhost:5000/api/JobApplications", {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
         credentials: "same-origin",
-        body: JSON.stringify({
-          userID: userID,
-          jobID: jobID
-        }),
-
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+        body: formdata,
       })
         .then((response) => response.json())
 
         .then((json) => console.log(json));
-    }
+    };
     apply();
-  }
+  };
 
   return (
     <Modal
@@ -70,14 +83,57 @@ const JobPage = (props) => {
             <h4>Description</h4>
             <p>{props.descr}</p>
           </div>
+          <div class="file-upload">
+            <div class="file-select">
+              <div class="file-select-button" id="fileName">
+                Choose File
+              </div>
+              <div class="file-select-name" id="noFile">
+                {isFilePicked ? (
+                  <>{selectedFile.name}</>
+                ) : (
+                  <>No file chosen...</>
+                )}
+              </div>
+              <input
+                type="file"
+                name="chooseFile"
+                id="chooseFile"
+                onChange={changeHandler}
+              />
+            </div>
+          </div>
         </div>
       </Modal.Body>
       <div className="buttons-wrapper">
-        <button className="apply-button" onClick={handleApplication}>Apply</button>
+        {isFilePicked ? (
+          <>
+            {" "}
+            <button className="apply-button" onClick={handleApplication}>
+              Apply
+            </button>
+          </>
+        ) : (
+          <button className="disabled-btn" onClick={handleApplication} disabled>
+            Apply
+          </button>
+        )}
+
         <button className="close-button" onClick={props.onHide}>
           Close
         </button>
       </div>
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </Modal>
   );
 };

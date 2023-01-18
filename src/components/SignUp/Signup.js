@@ -4,6 +4,7 @@ import greenBg from "../../icons/green-bg.png";
 import HomePage from "../HomePage/HomePage";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 
 const Signup = () => {
@@ -13,6 +14,7 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   const [userType, setUserType] = React.useState("");
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,19 +27,15 @@ const Signup = () => {
     fetchData();
   }, []);
 
+
   const handleChange = (e) => {
     setUserType(e.target.value);
   };
 
   const handleSubmit = async (e) => {
-    const descr = data.description;
-    const profilePic = data.profilePicture;
-    const usertype = data.userType.name;
-    e.preventDefault();
 
     const sendData = async () => {
-      console.log("da")
-      fetch("http://localhost:5000/api/Users", {
+      await fetch("http://localhost:5000/api/Users", {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -46,7 +44,7 @@ const Signup = () => {
           name: name,
           email: email,
           password: password,
-
+          userTypeId: userType
         }),
 
         headers: {
@@ -58,12 +56,8 @@ const Signup = () => {
         .then((json) => console.log(json));
     };
     sendData();
-    localStorage.setItem("email", email);
-    localStorage.setItem("logged", true);
-    localStorage.setItem("description", descr);
-    localStorage.setItem("profilePic", profilePic);
-    localStorage.setItem("userType", usertype);
-    setSuccess(true);
+
+    navigate("/login");
   };
 
   return (
@@ -85,8 +79,8 @@ const Signup = () => {
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     required
+                    placeholder="Name"
                   />
-                  <label>Name</label>
                   <span class="material-symbols-outlined">
                     {" "}
                     account_circle{" "}
@@ -100,8 +94,8 @@ const Signup = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     required
+                    placeholder="Email"
                   />
-                  <label>Email</label>
                   <span class="material-symbols-outlined"> email </span>
                 </div>
 
@@ -112,8 +106,8 @@ const Signup = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required
+                    placeholder="Password"
                   />
-                  <label>Password</label>
                   <span class="material-symbols-outlined"> key </span>
                 </div>
 

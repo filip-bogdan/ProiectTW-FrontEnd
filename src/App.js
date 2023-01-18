@@ -4,7 +4,7 @@ import Login from "./components/Login/Login";
 import Signup from "./components/SignUp/Signup";
 import HomePage from "./components/HomePage/HomePage";
 import Profile from "./components/Profile/Profile";
-
+import AddJob from "./components/AddJob/AddJob";
 import "./App.css";
 
 const ProtectedRoute = ({ logged, children }) => {
@@ -32,6 +32,7 @@ function App() {
         <Route path="/login" element={<LoggedRoute logged={initialValue}><Login /></LoggedRoute>}  />
         <Route path="/signup" element={<LoggedRoute logged={initialValue}><Signup /></LoggedRoute>}  />
         <Route path="/profile" element={<ProtectedRoute logged={initialValue}><Profile /></ProtectedRoute>} />
+        <Route path="/add-new-job" element={<ProtectedRoute logged={initialValue}><AddJob /></ProtectedRoute>} />
       </Routes>
     </div>
   );

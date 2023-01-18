@@ -30,15 +30,12 @@ const Login = () => {
     e.preventDefault();
 
     user.map((user) => {
-      const descr = user.description;
-      const profilePic = user.profilePicture;
-      const userType = user.userType.name;
+      const userTypeId = user.userType.id;
+      const userId = user.id;
       if (email === user.email && password === user.password) {
-        localStorage.setItem("email", email);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userTypeId", userTypeId)
         localStorage.setItem("logged", true);
-        localStorage.setItem("description", descr);
-        localStorage.setItem("profilePic", profilePic);
-        localStorage.setItem("userType", userType);
         setEmail("");
         setPassword("");
         setSuccess(true);
@@ -72,8 +69,8 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     required
+                    placeholder="Email"
                   />
-                  <label>Email</label>
                   <span className="material-symbols-outlined"> email </span>
                 </div>
 
@@ -83,9 +80,9 @@ const Login = () => {
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
+                    placeholder="Password"
                     required
                   />
-                  <label>Password</label>
                   <span className="material-symbols-outlined"> key </span>
                 </div>
 
